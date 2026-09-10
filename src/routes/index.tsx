@@ -5,7 +5,6 @@ import {
   ArrowRight,
   Braces,
   CalendarDays,
-  CarFront,
   Check,
   ChevronRight,
   Gauge,
@@ -90,6 +89,8 @@ function Index() {
   const [formMode, setFormMode] = useState<"appointment" | "quote">("appointment");
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState("");
+  const currentTestimonial = testimonials[review] ?? testimonials[0];
+  const selectedProject = lightbox === null ? undefined : projects[lightbox];
 
   useEffect(() => {
     if (lightbox === null) return;
@@ -231,8 +232,8 @@ function Index() {
             <div className="lg:col-span-8">
               <div className="border-l border-champagne pl-6 sm:pl-10">
                 <div className="flex gap-1 text-champagne" aria-label="5 out of 5 stars">{Array.from({ length: 5 }).map((_, i) => <Sparkles key={i} size={15} fill="currentColor" />)}</div>
-                <blockquote className="mt-8 font-display text-2xl leading-snug text-foreground sm:text-4xl">“{testimonials[review].quote}”</blockquote>
-                <p className="mt-7 text-xs uppercase tracking-[0.18em] text-muted-foreground">Sample client · {testimonials[review].service}</p>
+                <blockquote className="mt-8 font-display text-2xl leading-snug text-foreground sm:text-4xl">“{currentTestimonial?.quote}”</blockquote>
+                <p className="mt-7 text-xs uppercase tracking-[0.18em] text-muted-foreground">Sample client · {currentTestimonial?.service}</p>
               </div>
               <div className="mt-10 flex items-center justify-between border-t border-border pt-6">
                 <span className="font-display text-sm text-muted-foreground">0{review + 1} / 0{testimonials.length}</span>
@@ -291,10 +292,10 @@ function Index() {
         </div>
       </footer>
 
-      {lightbox !== null && (
-        <div className="fixed inset-0 z-50 grid place-items-center bg-background/95 p-4 backdrop-blur" role="dialog" aria-modal="true" aria-label={`${projects[lightbox].title} gallery image`} onClick={() => setLightbox(null)}>
+      {selectedProject && (
+        <div className="fixed inset-0 z-50 grid place-items-center bg-background/95 p-4 backdrop-blur" role="dialog" aria-modal="true" aria-label={`${selectedProject.title} gallery image`} onClick={() => setLightbox(null)}>
           <button onClick={() => setLightbox(null)} className="absolute right-5 top-5 grid size-11 place-items-center border border-border text-foreground transition-colors hover:border-champagne hover:text-champagne" aria-label="Close gallery"><X size={20} /></button>
-          <figure className="max-w-5xl" onClick={(event) => event.stopPropagation()}><img src={projects[lightbox].image} alt={projects[lightbox].title} width={1200} height={900} className="max-h-[78vh] w-full object-contain" /><figcaption className="mt-4 flex items-center justify-between"><span className="font-display text-lg">{projects[lightbox].title}</span><span className="text-xs uppercase tracking-[0.15em] text-champagne">{projects[lightbox].category}</span></figcaption></figure>
+          <figure className="max-w-5xl" onClick={(event) => event.stopPropagation()}><img src={selectedProject.image} alt={selectedProject.title} width={1200} height={900} className="max-h-[78vh] w-full object-contain" /><figcaption className="mt-4 flex items-center justify-between"><span className="font-display text-lg">{selectedProject.title}</span><span className="text-xs uppercase tracking-[0.15em] text-champagne">{selectedProject.category}</span></figcaption></figure>
         </div>
       )}
     </main>
