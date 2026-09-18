@@ -1,0 +1,10 @@
+# Nitro's `netlify` preset (auto-detected on Netlify, or via NITRO_PRESET)
+# writes static assets to `dist/` and the SSR handler to
+# `.netlify/functions-internal/`. Do not use `dist/client` (that's the
+# @netlify/vite-plugin-tanstack-start layout this app does not use).
+[build]
+  command = "bun run build"
+  publish = "dist"
+
+[build.environment]
+  NITRO_PRESET = "netlify"
